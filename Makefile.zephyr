@@ -1,0 +1,13 @@
+NPROC ?= $(shell nproc)
+
+all: build
+
+phony+=config
+config:
+	$(MAKE) CROSS_COMPILE=$(CROSS_COMPILE) ARCH=$(ARCH) O=$(O) $(DEFCONFIG)
+
+phony+=build
+build: config
+	$(MAKE) CROSS_COMPILE=$(CROSS_COMPILE) ARCH=$(ARCH) O=$(O) -j $(NPROC)
+
+.PHONY: $(phony)
